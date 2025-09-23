@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Report - {{ student.name }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+    .report-container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .logo {
+      max-width: 100px;
+    }
+    .school-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .table th, .table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+    .remarks-section textarea {
+      width: 100%;
+      height: 80px;
+    }
+    /* Style for the student's picture */
+    .student-picture {
+      max-width: 200px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      margin: 0 auto 20px auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <div class="report-container">
+    <div class="school-header">
+      <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="School Logo" class="logo">
+      <h2 class="mt-2">THE LITTLE ANGELS NEXT GEN MONTESSORI SCHOOL</h2>
+      <p><strong>Student Report</strong></p>
+    </div>
+
+    <!-- Display Student Picture if available -->
+    {% if student.picture %}
+      <div class="text-center">
+        <img src="{{ url_for('static', filename='uploads/' ~ student.picture) }}" alt="Student Picture" class="student-picture">
+      </div>
+    {% endif %}
+
+    <!-- Student Information -->
+    <h4 class="text-primary">Student Information</h4>
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>Reg.No</th>
+          <td>{{ student.id }}</td>
+          <th>Name</th>
+          <td>{{ student.name }}</td>
+        </tr>
+        <tr>
+          <th>Father's Name</th>
+          <td>{{ student.father_name }}</td>
+          <th>Contact Number</th>
+          <td>{{ student.contact_number }}</td>
+        </tr>
+        <tr>
+          <th>Grade</th>
+          <td>{{ student.grade }}</td>
+          <th>Monthly Fee</th>
+          <td>Rs. {{ "%.2f"|format(student.monthly_fee) }}</td>
+        </tr>
+        <tr>
+          <th>Annual Charge</th>
+          <td>Rs. {{ "%.2f"|format(student.annual_charge) }}</td>
+          <th>Paid Annual Charge</th>
+          <td>Rs. {{ "%.2f"|format(student.paid_annual_charge) }}</td>
+        </tr>
+        <tr>
+          <th>Admission Fee</th>
+          <td>Rs. {{ "%.2f"|format(student.admission_fee) }}</td>
+          <th>Paid Admission Fee</th>
+          <td>Rs. {{ "%.2f"|format(student.paid_admission_fee) }}</td>
+        </tr>
+        <tr>
+          <th>Admission Date</th>
+          <td>{{ student.admission_date }}</td>
+          <th colspan="2"></th>
+        </tr>
+        <tr>
+          <th>Exam Charge</th>
+          <td>Rs. {{ "%.2f"|format(student.exam_charge) }}</td>
+          <th>Paid Exam Charge</th>
+          <td>Rs. {{ "%.2f"|format(student.paid_exam_charge) }}</td>
+        </tr>
+        <tr>
+          <th>Total Expected Fee</th>
+          <td colspan="3" class="text-danger"><strong>Rs. {{ "%.2f"|format(total_expected_fee) }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Payment History -->
+    <h4 class="text-success mt-4">Payment History</h4>
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Month</th>
+          <th>Date Paid</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payment_history %}
+        <tr>
+          <td>{{ payment.month }}</td>
+          <td>{{ payment.date_paid }}</td>
+          <td>{{ payment.remark }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Remarks Section -->
+    <h4 class="text-warning mt-4">Update Remarks</h4>
+    <form method="POST">
+      <div class="remarks-section">
+        {% for i in range(student.remarks|length) %}
+        <div class="mb-2">
+          <label>Remark {{ i+1 }}</label>
+          <textarea name="remarks">{{ student.remarks[i] }}</textarea>
+        </div>
+        {% endfor %}
+        <div class="mb-2">
+          <label>New Remark</label>
+          <textarea name="remarks" placeholder="Write your remark here..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Save Remarks</button>
+      </div>
+    </form>
+
+    <!-- Back Button -->
+    <div class="mt-4">
+      <a href="{{ url_for('manage_students') }}" class="btn btn-secondary">Back to Students</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Listen for keydown events to intercept Ctrl+P
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'p') {
+      event.preventDefault();
+      window.print();
+    }
+  });
+</script>
+</body>
+</html>

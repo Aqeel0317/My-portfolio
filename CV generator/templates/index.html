@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI CV Generator - Input Details</title>
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* --- CSS Variables for easy theming --- */
+    :root {
+      --primary: #007BFF;
+      --accent: #0056b3;
+      --bg-color: #f4f4f4;
+      --form-bg: #fff;
+      --text-color: #444;
+      --border-color: #ddd;
+      --gradient-start: #00c6ff;
+      --gradient-end: #0072ff;
+    }
+
+    /* --- Global Styles --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+    }
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    /* --- Form Container --- */
+    form#cv-form {
+      width: 100%;
+      max-width: 800px;
+      background-color: var(--form-bg);
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+    form#cv-form:hover {
+      transform: translateY(-5px);
+    }
+
+    /* --- Headings & Section Titles --- */
+    form h2 {
+      margin-top: 20px;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 1em;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin-top: 5px;
+      font-size: 0.95em;
+      transition: border-color 0.25s ease;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"]:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    /* --- Form Layout --- */
+    form br {
+      display: none;
+    }
+    
+    /* --- Grouped Container Styling --- */
+    #skills-container,
+    #experience-container,
+    #education-container {
+      margin-top: 10px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border-color);
+    }
+    .skill-entry,
+    .experience-entry,
+    .education-entry {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #fafafa;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+    
+    /* --- Buttons --- */
+    button[type="button"],
+    button[type="submit"] {
+      cursor: pointer;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: #fff;
+      transition: background 0.3s ease;
+      margin-top: 15px;
+    }
+    button[type="button"]:hover,
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, var(--gradient-end), var(--gradient-start));
+    }
+    
+    /* --- Form Title (AI Touch) --- */
+    header.form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header.form-header h1 {
+      font-size: 2.8em;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    header.form-header p {
+      font-size: 1.1em;
+      color: var(--primary);
+      margin-top: 5px;
+    }
+    
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 600px) {
+      form#cv-form {
+        padding: 20px 25px;
+      }
+      header.form-header h1 {
+        font-size: 2.4em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="form-header">
+    <h1>AI CV Generator</h1>
+    <p>Create Your Professional CV in Seconds</p>
+  </header>
+  
+  <form action="{{ url_for('process_form') }}" method="post" enctype="multipart/form-data" id="cv-form">
+    <h2>Personal Information</h2>
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone">
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address">
+
+    <label for="linkedin">LinkedIn Profile URL (Optional):</label>
+    <input type="url" id="linkedin" name="linkedin">
+
+    <label for="portfolio">Portfolio/Website URL (Optional):</label>
+    <input type="url" id="portfolio" name="portfolio">
+
+    <label for="picture">Profile Picture (Optional):</label>
+    <input type="file" id="picture" name="picture" accept="image/*">
+
+    <h2>Professional Summary</h2>
+    <label for="summary">Summary/Objective:</label>
+    <textarea id="summary" name="summary" rows="4" cols="50"></textarea>
+
+    <h2>Skills</h2>
+    <div id="skills-container">
+      <div class="skill-entry">
+        <label for="skill_1">Skill:</label>
+        <input type="text" name="skill_1" id="skill_1">
+      </div>
+    </div>
+    <button type="button" id="add-skill">Add Another Skill</button>
+
+    <h2>Work Experience</h2>
+    <div id="experience-container">
+      <div class="experience-entry">
+        <h4>Experience 1</h4>
+        <label for="job_title_1">Job Title:</label>
+        <input type="text" name="job_title_1" id="job_title_1">
+        <label for="company_1">Company:</label>
+        <input type="text" name="company_1" id="company_1">
+        <label for="exp_years_1">Years (e.g., 2020-Present):</label>
+        <input type="text" name="exp_years_1" id="exp_years_1">
+        <label for="exp_desc_1">Description/Responsibilities:</label>
+        <textarea name="exp_desc_1" id="exp_desc_1" rows="3"></textarea>
+      </div>
+    </div>
+    <button type="button" id="add-experience">Add Another Experience</button>
+
+    <h2>Education</h2>
+    <div id="education-container">
+      <div class="education-entry">
+        <h4>Education 1</h4>
+        <label for="degree_1">Degree/Certificate:</label>
+        <input type="text" name="degree_1" id="degree_1">
+        <label for="institution_1">Institution:</label>
+        <input type="text" name="institution_1" id="institution_1">
+        <label for="edu_years_1">Years (e.g., 2016-2020):</label>
+        <input type="text" name="edu_years_1" id="edu_years_1">
+      </div>
+    </div>
+    <button type="button" id="add-education">Add Another Education</button>
+
+    <br><br>
+    <button type="submit">Submit &amp; Choose Template</button>
+  </form>
+
+  <!-- Optional: Include your custom JavaScript -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

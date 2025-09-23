@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ note.title }}</h2>
+    <div>
+        <a href="{{ url_for('export_note', note_id=note.id) }}" class="btn btn-outline-primary">
+            <i class="fas fa-download"></i> Export PDF
+        </a>
+        <a href="{{ url_for('notes') }}" class="btn btn-outline-secondary">Back to Notes</a>
+    </div>
+</div>
+
+<div class="card mx-auto" style="max-width: 800px;">
+    <div class="card-body">
+        <h3 class="card-title">{{ note.title }}</h3>
+        <p class="text-muted">Created: {{ note.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        {% if note.image_url %}
+        <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename='images/' + note.image_url) }}" 
+                 class="img-fluid" alt="Study visualization">
+        </div>
+        {% endif %}
+        <hr>
+        <div class="card-text" style="white-space: pre-wrap;">{{ note.content }}</div>
+    </div>
+</div>
+{% endblock %}

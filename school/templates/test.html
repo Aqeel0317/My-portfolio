@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modify Student</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+    .checkbox-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .checkbox-item {
+      margin-right: 10px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .current-picture {
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    .current-picture img {
+      max-width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Modify Student Information</h1>
+  <!-- Display current picture if available -->
+  {% if student.picture %}
+    <div class="current-picture">
+      <p>Current Picture:</p>
+      <img src="{{ url_for('static', filename='uploads/' ~ student.picture) }}" alt="Student Picture">
+    </div>
+  {% endif %}
+  <!-- Include enctype for file upload -->
+  <form method="POST" action="/students/modify/{{ student.id }}" enctype="multipart/form-data">
+    <!-- Hidden field to pass student ID if needed -->
+    <input type="hidden" name="student_id" value="{{ student.id }}">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ student.name }}" required>
+
+    <label for="grade">Grade:</label>
+    <input type="text" id="grade" name="grade" value="{{ student.grade }}">
+
+    <label for="admission_fee">Admission Fee:</label>
+    <input type="number" id="admission_fee" name="admission_fee" step="0.01" value="{{ student.admission_fee }}">
+
+    <label for="paid_admission_fee">Paid Admission Fee:</label>
+    <input type="number" id="paid_admission_fee" name="paid_admission_fee" step="0.01" value="{{ student.paid_admission_fee }}">
+
+    <label for="monthly_fee">Monthly Fee:</label>
+    <input type="number" id="monthly_fee" name="monthly_fee" step="0.01" value="{{ student.monthly_fee }}">
+    
+    <label for="annual_charge">Previous Charges:</label>
+    <input type="number" id="annual_charge" name="annual_charge" step="0.01" value="{{ student.annual_charge }}">
+
+    <label for="paid_annual_charge">Paid Previous Charge:</label>
+    <input type="number" id="paid_annual_charge" name="paid_annual_charge" step="0.01" value="{{ student.paid_annual_charge }}">
+
+    <label for="admission_date">Admission Date:</label>
+    <input type="date" id="admission_date" name="admission_date" value="{{ student.admission_date }}">
+
+    <label for="exam_charge">Exam Charges:</label>
+    <input type="number" id="exam_charge" name="exam_charge" step="0.01" value="{{ student.exam_charge }}">
+
+    <label for="paid_exam_charge">Paid Exam Charges:</label>
+    <input type="number" id="paid_exam_charge" name="paid_exam_charge" step="0.01" value="{{ student.paid_exam_charge }}">
+
+    <!-- New file input for updating the student picture (optional) -->
+    <label for="picture">Update Student Picture (optional):</label>
+    <input type="file" id="picture" name="picture" accept="image/*">
+
+    <!-- Checkbox for months already paid -->
+    <label for="months_paid">Months Paid:</label>
+    <div class="checkbox-container">
+      {% for month in months %}
+        <div class="checkbox-item">
+          <input type="checkbox" id="month_{{ month }}" name="months_paid" value="{{ month }}"
+          {% if month in student.months_paid %}checked{% endif %}>
+          <label for="month_{{ month }}">{{ month }}</label>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Checkbox for deleting months -->
+    <label for="months_to_delete">Delete Months:</label>
+    <div class="checkbox-container">
+      {% for month in months %}
+        <div class="checkbox-item">
+          <input type="checkbox" id="delete_month_{{ month }}" name="months_to_delete" value="{{ month }}">
+          <label for="delete_month_{{ month }}">Delete {{ month }}</label>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- New paid fee: this is the additional amount to be added -->
+    <label for="paid_fee">New Paid Fee:</label>
+    <input type="number" id="paid_fee" name="paid_fee" step="0.01" placeholder="Enter new amount to add">
+
+    <!-- New paid date for the months being added -->
+    <label for="paid_date">New Paid Date:</label>
+    <input type="date" id="paid_date" name="paid_date" placeholder="Enter new paid date">
+
+    <button type="submit">Update Student</button>
+  </form>
+</body>
+</html>

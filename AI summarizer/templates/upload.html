@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Document - Notes Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Upload & Process</h2>
+        <p class="description">Select a document and optionally ask a question.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="flash-message {{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('process_image') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose Document:</label>
+                <input type="file" name="file" id="file" accept=".{{ allowed_extensions|join(', .') }}" required>
+                <small class="allowed-types">Allowed types: {{ allowed_extensions|join(', ') }}</small>
+            </div>
+
+            <div class="form-group">
+                <label for="question">Ask a specific question (optional):</label>
+                <textarea name="question" id="question" rows="3" placeholder="e.g., What were the key findings? (Leave blank for a general summary)"></textarea>
+            </div>
+
+            <button type="submit" class="btn">Summarize / Get Answer</button>
+        </form>
+         <a href="{{ url_for('index') }}" class="back-link" style="margin-top: 30px;">&larr; Back to Welcome</a>
+    </div>
+</body>
+</html>

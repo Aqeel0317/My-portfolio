@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Collection Report</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f7f6; color: #333; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px;}
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); background-color: #fff; }
+        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; vertical-align: top; }
+        th { background-color: #3498db; color: white; position: sticky; top: 0; z-index: 10;}
+        .filter-form { margin-bottom: 25px; padding: 20px; border: 1px solid #bdc3c7; background-color: #ecf0f1; border-radius: 8px; display: flex; flex-wrap: wrap; align-items: center; gap:15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);}
+        .filter-form label { font-weight: bold; margin-right: 5px; color: #2c3e50;}
+        .filter-form input[type="date"], .filter-form select, .filter-form input[type="radio"], .filter-form input[type="text"] {
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            margin-right: 10px;
+            box-sizing: border-box;
+        }
+        .filter-form button {
+            padding: 10px 18px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filter-form button[type="button"] {
+            background-color: #e74c3c;
+        }
+        .filter-form button:hover {
+            opacity: 0.9;
+        }
+        .print-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .print-button:hover { background-color: #2980b9; }
+        .no-data { font-style: italic; color: #7f8c8d; margin-top: 20px; text-align: center; font-size: 1.1em; }
+        .summary-row td { font-weight: bold; background-color: #ecf0f1; color: #2c3e50; }
+        .go-back { display: inline-block; margin-bottom: 20px; padding: 8px 15px; background-color: #95a5a6; color: white; text-decoration: none; border-radius: 4px; transition: background-color 0.3s ease; }
+        .go-back:hover { background-color: #7f8c8d; }
+        @media print {
+            body { margin: 0.5cm; font-size: 10pt; background-color: #fff; }
+            th { background-color: #3498db !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .filter-form, .print-button, .go-back { display: none; }
+            table { page-break-inside: auto; width: 100%; box-shadow: none; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            thead { display: table-header-group; }
+            tbody { display: table-row-group; }
+            tfoot { display: table-footer-group; }
+            h1 { page-break-after: avoid; text-align: center; }
+            .summary-row td { background-color: #ecf0f1 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page { margin: 1cm; size: A4 landscape; }
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('index') }}" class="go-back">&larr; Home</a>
+    <h1>Fee Collection Report</h1>
+
+    <form class="filter-form" method="GET" action="{{ url_for('fee_collection') }}">
+        <div>
+            <label>View:</label>
+            <input type="radio" name="view_type" value="paid" id="view_paid" {% if view_type=='paid' %}checked{% endif %}><label for="view_paid">Paid</label>
+            <input type="radio" name="view_type" value="unpaid" id="view_unpaid" {% if view_type=='unpaid' %}checked{% endif %}><label for="view_unpaid">Unpaid</label>
+        </div>
+        <div><label for="start_date">Start Date:</label><input type="date" name="start_date" id="start_date" value="{{ start_date }}"></div>
+        <div><label for="end_date">End Date:</label><input type="date" name="end_date" id="end_date" value="{{ end_date }}"></div>
+        <div><label for="grade">Grade:</label><select name="grade" id="grade"><option value="">All Grades</option>{% for g in all_grades %}<option value="{{ g }}" {% if g==grade_filter %}selected{% endif %}>{{ g }}</option>{% endfor %}</select></div>
+        <div><label for="month">Month:</label><select name="month" id="month"><option value="">All Months</option>{% for m in months %}<option value="{{ m }}" {% if m==month_filter %}selected{% endif %}>{{ m }}</option>{% endfor %}</select></div>
+        <div><label for="dues_range">Dues Range:</label><input type="text" name="dues_range" id="dues_range" placeholder="e.g. 100-500 or 500+" value="{{ dues_range }}"></div>
+        <div><label for="search_student">Student:</label><input type="text" name="search_student" id="search_student" placeholder="ID or name" value="{{ search_student }}"></div>
+        <button type="submit">Filter</button>
+        <button type="button" onclick="window.location.href='{{ url_for('fee_collection') }}'">Clear</button>
+    </form>
+    <button class="print-button" onclick="window.print()">Print</button>
+
+    <div>
+    {% if error %}<p class="no-data">{{ error }}</p>
+    {% elif all_records %}
+        {% if view_type=='unpaid' and unpaid_summary %}
+            <table>
+                <thead><tr><th>#</th><th>ID</th><th>Name</th><th>Grade</th><th>Months</th><th>Count</th><th>Total Due</th></tr></thead>
+                <tbody>
+                {% for rec in all_records %}
+                <tr><td>{{ loop.index }}</td><td>{{ rec.student_id }}</td><td>{{ rec.student }}</td><td>{{ rec.grade }}</td><td>{{ rec.months_list|join(', ') }}</td><td>{{ rec.count }}</td><td>{{ '%.2f'|format(rec.total_due) }}</td></tr>
+                {% endfor %}
+                </tbody>
+                <tfoot><tr class="summary-row"><td colspan="6" style="text-align:right">Grand Due:</td><td>{{ '%.2f'|format(grand_total) }}</td></tr></tfoot>
+            </table>
+        {% else %}
+            <table>
+                <thead><tr><th>#</th><th>ID</th><th>Name</th><th>Grade</th>
+                {% if view_type=='paid' %}<th>Month Paid</th><th>Date Paid</th><th>Amount</th>{% else %}<th>Month Due</th><th>Amount Due</th>{% endif %}
+                </tr></thead>
+                <tbody>
+                {% for rec in all_records %}
+                <tr><td>{{ loop.index }}</td><td>{{ rec.student_id }}</td><td>{{ rec.student }}</td><td>{{ rec.grade }}</td>
+                {% if view_type=='paid' %}<td>{{ rec.month }}</td><td>{{ rec.display_date }}</td><td>{{ '%.2f'|format(rec.amount) }}</td>
+                {% else %}<td>{{ rec.display_month }}</td><td>{{ '%.2f'|format(rec.amount) }}</td>{% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot><tr class="summary-row"><td colspan="{% if view_type=='paid' %}6{% else %}4{% endif %}" style="text-align:right">Grand Total {{ 'Paid' if view_type=='paid' else 'Due' }}:</td><td>{{ '%.2f'|format(grand_total) }}</td></tr></tfoot>
+            </table>
+        {% endif %}
+    {% else %}<p class="no-data">No data found.</p>{% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=>{
+            ['start_date','end_date'].forEach(id=>{ const el=document.getElementById(id); if(!el.value||el.value==='None') el.value='';});
+        });
+    </script>
+</body>
+</html>

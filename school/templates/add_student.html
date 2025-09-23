@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Student</title>
+  <style>
+    /* Ensure full view compatibility for PyWebView */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding-top: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      padding: 15px;
+      width: 95%;
+      max-width: 600px;
+      margin: 20px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      background-color: #ffffff;
+    }
+
+    .checkbox-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .checkbox-container label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .checkbox-container input {
+      transform: scale(1.2);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .go-back {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #007bff;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .go-back:hover {
+      color: #0056b3;
+    }
+
+    @media (max-height: 500px) {
+      .form-container {
+        padding: 15px;
+        margin: 10px auto;
+      }
+
+      label,
+      button,
+      .go-back {
+        font-size: 14px;
+      }
+
+      button {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Add Student</h1>
+    <!-- Added enctype attribute for file upload support -->
+    <form method="POST" action="/add_student" class="student-form" enctype="multipart/form-data">
+      <label for="id">Reg.No:</label>
+      <input type="text" id="id" name="id" required />
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="fathers_name">Father's Name:</label>
+      <input type="text" id="fathers_name" name="fathers_name" />
+
+      <label for="contact_number">Contact Number:</label>
+      <input type="text" id="contact_number" name="contact_number" />
+
+      <label for="grade">Grade:</label>
+      <input type="text" id="grade" name="grade" />
+
+      <label for="monthly_fee">Monthly Fee:</label>
+      <input type="number" id="monthly_fee" name="monthly_fee" step="0.01" />
+
+      <label for="annual_charge">Previous charges</label>
+      <input type="number" id="annual_charge" name="annual_charge" step="0.01" />
+
+      <label for="paid_annual_charge">Paid Previous charges:</label>
+      <input type="number" id="paid_annual_charge" name="paid_annual_charge" step="0.01" value="0" />
+
+      <label for="admission_fee">Admission Fee:</label>
+      <input type="number" id="admission_fee" name="admission_fee" step="0.01" />
+
+      <label for="paid_admission_fee">Paid Admission Fee:</label>
+      <input type="number" id="paid_admission_fee" name="paid_admission_fee" step="0.01" value="0" />
+
+      <label for="admission_date">Admission Date:</label>
+      <input type="date" id="admission_date" name="admission_date" />
+
+      <label for="exam_charge">Exam Charge:</label>
+      <input type="number" id="exam_charge" name="exam_charge" step="0.01" />
+
+      <label for="paid_exam_charge">Paid Exam Charge:</label>
+      <input type="number" id="paid_exam_charge" name="paid_exam_charge" step="0.01" value="0" />
+
+      <!-- New file upload input for optional student picture -->
+      <label for="picture">Student Picture (optional):</label>
+      <input type="file" id="picture" name="picture" accept="image/*" />
+
+      <label>Months Paid:</label>
+      <div class="checkbox-container">
+        {% for month in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+          <label><input type="checkbox" name="months_paid" value="{{ month }}"> {{ month }}</label>
+        {% endfor %}
+      </div>
+
+      <label for="paid_fee">Paid Fee:</label>
+      <input type="number" id="paid_fee" name="paid_fee" step="0.01" />
+
+      <label for="paid_date">Paid Date:</label>
+      <input type="date" id="paid_date" name="paid_date" />
+
+      <button type="submit">Add Student</button>
+    </form>
+    <a href="{{ url_for('manage_students') }}" class="go-back">Go Back</a>
+  </div>
+</body>
+</html>

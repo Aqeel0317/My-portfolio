@@ -1,0 +1,45 @@
+
+
+{
+    "params":
+    {
+        "local_server":"True",
+        "local_url": "mysql://root:@localhost/education",
+        "prod_url" : " 'mysql://root:@localhost/education'",
+        "fb_url": "https://facebook.com/clean_blog",
+        "tw_url": "https://twitter.com/clean_blog",
+        "git_url": "https://gethub.com/clean_blog",
+        "gmail_user": "aqee03179454182",
+        "gmail_pass": "@Aqeel0317",
+        "No_of_posts": "5",
+        "about_text": "Hy I'm Aqeel. I'm here to providing u interested blogs",
+        "title": "Fashions River",
+        "admin_user": "Aqeel0317",
+        "admin_pass": "@Aqeel0317",
+        "upload_folder": "e://flask"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+    }
+
+
+}

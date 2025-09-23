@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Student - Computer Academy</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Computer Academy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('add_comp') }}">Add Student</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('comp') }}">Manage Students <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('comp_fee') }}">Fee Collection</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+    <div class="container mt-5">
+        <h2>Add New Student</h2>
+        {% with messages = get_flashed_messages(category_filter=['error', 'success']) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('add_comp') }}" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="id">Student ID</label>
+                    <input type="text" class="form-control" id="id" name="id" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fathers_name">Father's Name</label>
+                <input type="text" class="form-control" id="fathers_name" name="fathers_name">
+            </div>
+            <div class="form-group">
+                <label for="contact_number">Contact Number</label>
+                <input type="text" class="form-control" id="contact_number" name="contact_number">
+            </div>
+            <div class="form-group">
+                <label for="course">Course</label>
+                <input type="text" class="form-control" id="course" name="course">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="monthly_fee">Monthly Fee</label>
+                    <input type="number" class="form-control" id="monthly_fee" name="monthly_fee" value="0.0" step="0.01">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="admission_fee">Admission Fee</label>
+                    <input type="number" class="form-control" id="admission_fee" name="admission_fee" value="0.0" step="0.01">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="paid_admission_fee">Paid Admission Fee</label>
+                    <input type="number" class="form-control" id="paid_admission_fee" name="paid_admission_fee" value="0.0" step="0.01">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="months_paid">Months Paid</label><br>
+                {% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+                {% for month in months %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="{{ month }}" name="months_paid" value="{{ month }}">
+                        <label class="form-check-label" for="{{ month }}">{{ month }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="paid_date">Paid Date (for initial payment)</label>
+                    <input type="date" class="form-control" id="paid_date" name="paid_date">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="admission_date">Admission Date</label>
+                    <input type="date" class="form-control" id="admission_date" name="admission_date">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="picture">Student Picture (Optional)</label>
+                <input type="file" class="form-control-file" id="picture" name="picture">
+                <small class="form-text text-muted">Allowed file types: png, jpg, jpeg, gif</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Student</button>
+        </form>
+        <a href="{{ url_for('comp') }}" class="btn btn-secondary mt-3">Back to Manage Students</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

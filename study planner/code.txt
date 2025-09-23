@@ -1,0 +1,60 @@
+
+
+# Additional template files needed
+
+"""
+TEMPLATES CONTINUATION:
+
+=== Complete templates/notes.html ===
+
+
+=== templates/view_note.html ===
+
+
+=== templates/images.html ===
+
+
+=== templates/reminders.html ===
+
+
+# REQUIREMENTS.TXT file content:
+"""
+Flask==2.3.3
+Flask-SQLAlchemy==3.0.5
+google-generativeai==0.3.2
+requests==2.31.0
+APScheduler==3.10.4
+reportlab==4.0.4
+"""
+
+# SETUP INSTRUCTIONS:
+"""
+1. Install required packages:
+   pip install -r requirements.txt
+
+2. Set environment variables:
+   export GEMINI_API_KEY="your-actual-gemini-api-key"
+   export HF_API_KEY="your-hugging-face-api-key"
+   export EMAIL_USER="your-email@gmail.com"
+   export EMAIL_PASSWORD="your-app-password"
+
+3. Create directory structure:
+   mkdir -p templates static/images
+
+4. Create all template files as shown above in the templates/ directory
+
+5. Run the application:
+   python app.py
+
+6. Access at http://localhost:5000
+
+FEATURES INCLUDED:
+- Goal management with progress tracking
+- AI-powered chat coach using Gemini
+- Automated study notes generation
+- Image generation via Hugging Face
+- Smart reminders with email notifications
+- PDF export for notes
+- Responsive Bootstrap UI
+- SQLite database for persistence
+"""

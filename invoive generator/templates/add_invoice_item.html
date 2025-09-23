@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invoice Form</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+  <style>
+    .product-form {
+      margin-bottom: 10px;
+    } 
+  </style>
+
+</head>
+<body>
+  <div class="logo-container">
+    <img src="{{url_for('static', filename='logo.png')}}" alt="Company Logo">
+</div>
+
+  <div class="form">
+  <h1>Invoice Form</h1>
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="customer">
+
+    <h2>Customer Information</h2>
+    {{ form.name.label }} {{ form.name }}<br>
+    {{ form.address.label }} {{ form.address }}<br>
+    {{ form.phone.label }} {{ form.phone }}<br>
+    {{ form.homephone.label }} {{ form.homephone }}<br>
+    {{ form.email.label }} {{ form.email }}<br>
+    {{ form.city.label }} {{ form.city }}<br>
+    {{ form.state.label }} {{ form.state }}<br>
+    {{ form.zipcode.label }} {{ form.zipcode }}<br>
+    {{ form.leaseid.label }} {{ form.leaseid }}<br>
+    {{ form.saleperson.label }} {{ form.saleperson }}<br>
+    {{ form.floormodel.label }} {{ form.floormodel }}<br>
+    {{ form.customodr.label }} {{ form.customodr }}<br>
+    {{ form.financeco.label }} {{ form.financeco }}<br></div>
+
+
+    <h2>Invoice Details</h2>
+    <div id="product-forms">
+      {% for product_form in form.products %}
+      <div class="product-form">
+        {{ form.hidden_tag() }}
+        {{ product_form.qty.label }} {{ product_form.qty(size=5) }}<br>
+        {{ product_form.brand.label }} {{ product_form.brand }}<br>
+        {{ product_form.model_item.label }} {{ product_form.model_item }}<br>
+        {{ product_form.details.label }} {{ product_form.details }}<br>
+        {{ product_form.amount.label }} {{ product_form.amount(size=5) }}<br>
+        <button type="button" onclick="removeProduct(this)">Remove</button>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" onclick="addMoreProducts()">Add More</button>
+
+    <h3>Tax and Deposits</h3>
+    {{form.tax.label}}{{form.tax}} <br>
+    {{form.delivery.label}}{{form.delivery}} <br>
+    {{form.warranty.label}}{{form.warranty}} <br>
+    {{form.setup.label}}{{form.setup}} <br>
+    {{form.discount.label}}{{form.discount}} <br>
+    {{form.deposit.label}}{{form.deposit}} <br>
+    {{form.cost.label}}{{form.cost}} <br>
+
+
+    {{ form.submit }}
+  </form>
+
+</div>
+<input type="hidden" id="product-index" value="{{form.products|length}}">
+<script>
+    let productIndex = parseInt(document.getElementById('product-index').value);
+    
+    function addMoreProducts() {
+      const productForm = document.createElement('div');
+      productForm.classList.add('product-form');
+
+      productForm.innerHTML = `
+        <label>Quantity</label>
+        <input type="number" name="products-${productIndex}-qty" ><br>
+
+        <label>Brand</label>
+        <input type="text" name="products-${productIndex}-brand" ><br>
+
+        <label>Model/Item</label>
+        <input type="text" name="products-${productIndex}-model_item" ><br>
+
+        <label>Description</label>
+        <textarea name="products-${productIndex}-details" rows="2" ></textarea><br>
+
+        <label>Amount</label>
+        <input type="decimal" name="products-${productIndex}-amount" required><br>
+
+        <button type="button" onclick="removeProduct(this)">Remove</button>
+      `;
+
+      document.getElementById('product-forms').appendChild(productForm);
+      productIndex++;
+    }
+
+    function removeProduct(button) {
+      button.parentNode.remove();
+    }
+  </script>
+</html>

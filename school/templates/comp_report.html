@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report - Computer Academy</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Computer Academy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('add_comp') }}">Add Student</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('comp') }}">Manage Students <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('comp_fee') }}">Fee Collection</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container mt-5">
+        <h2>Student Report</h2>
+        <div class="row">
+            <div class="col-md-4">
+                {% if student.picture %}
+                    <img src="{{ url_for('static', filename='uploads/' + student.picture) }}" alt="Student Picture" class="img-thumbnail">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/default_user.png') }}" alt="No Picture" class="img-thumbnail">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <h4>{{ student.name }} (ID: {{ student.id }})</h4>
+                <p><strong>Father's Name:</strong> {{ student.father_name }}</p>
+                <p><strong>Contact Number:</strong> {{ student.contact_number }}</p>
+                <p><strong>Course:</strong> {{ student.course }}</p>
+                <p><strong>Admission Date:</strong> {{ student.admission_date }}</p>
+            </div>
+        </div>
+
+        <h4 class="mt-4">Fee Details</h4>
+        <p><strong>Monthly Fee:</strong> {{ student.monthly_fee }}</p>
+        <p><strong>Admission Fee:</strong> {{ student.admission_fee }}</p>
+        <p><strong>Paid Admission Fee:</strong> {{ student.paid_admission_fee }}</p>
+        <p><strong>Total Expected Fee:</strong> {{ total_expected_fee }}</p>
+        <p><strong>Total Paid Fee:</strong> {{ student.paid_fee + student.paid_admission_fee }}</p>
+        <p class="font-weight-bold {{ 'text-danger' if student.dues > 0 else 'text-success' }}">
+            <strong>Current Dues:</strong> {{ student.dues }}
+        </p>
+
+        <h4 class="mt-4">Payment History</h4>
+        {% if payment_history %}
+            <form method="POST" action="{{ url_for('comp_report', student_id=student.id) }}">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Date Paid</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payment_history %}
+                            <tr>
+                                <td>{{ payment.month }}</td>
+                                <td>{{ payment.date_paid }}</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" name="remarks" value="{{ payment.remark }}">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary btn-sm">Save Remarks</button>
+            </form>
+        {% else %}
+            <p>No payment history available.</p>
+        {% endif %}
+
+        <a href="{{ url_for('comp') }}" class="btn btn-secondary mt-3">Back to Manage Students</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

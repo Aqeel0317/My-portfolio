@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your CV Template</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Use Montserrat and Roboto for consistency -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --accent-color: #0056b3;
+      --bg-color: #f8f9fa;
+      --container-bg: #fff;
+      --text-color: #343a40;
+      --instruction-color: #6c757d;
+      --border-color: #dee2e6;
+      --hover-shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Base & Body Styles */
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      text-align: center;
+      color: var(--text-color);
+      margin-bottom: 30px;
+      font-size: 2.5em;
+    }
+    p.instructions {
+      text-align: center;
+      color: var(--instruction-color);
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+
+    /* Template Options */
+    .template-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      padding: 0 20px;
+      margin-bottom: 40px;
+    }
+    .template-option {
+      background-color: var(--container-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      width: 240px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .template-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px var(--hover-shadow);
+    }
+    .template-option img {
+      max-width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border: 1px solid #eee;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    }
+    .template-option h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.15em;
+      color: var(--text-color);
+    }
+    .template-option a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+    .template-option a:hover {
+      background-color: var(--accent-color);
+    }
+
+    /* Back Link */
+    .back-link {
+      display: block;
+      text-align: center;
+      margin: 40px auto;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select a CV Template</h1>
+  <p class="instructions">Choose a design to view your generated CV as a web page.</p>
+
+  <div class="template-options">
+    {% if templates %}
+      {% for template in templates %}
+      <div class="template-option">
+        <h3>{{ template.name }}</h3>
+        {% if template.thumbnail %}
+        <img src="{{ template.thumbnail }}" alt="{{ template.name }} Thumbnail">
+        {% else %}
+        <div style="height:170px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#999; border-radius: 4px;">No Preview</div>
+        {% endif %}
+        <a href="{{ url_for('generate_cv', template_id=template.id) }}" target="_blank">Select &amp; View CV</a>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>No CV templates are currently available.</p>
+    {% endif %}
+  </div>
+
+  <a href="{{ url_for('index') }}" class="back-link">Go Back and Edit Details</a>
+</body>
+</html>

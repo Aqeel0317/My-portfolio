@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Collection Report</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; } /* Added vertical-align */
+        th { background-color: #f2f2f2; }
+        .filter-form { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; }
+        .filter-form label, .filter-form input, .filter-form select, .filter-form button { margin-right: 10px; margin-bottom: 10px; }
+        .print-button { margin-top: 15px; padding: 10px 15px; cursor: pointer; }
+        .grade-header {
+            background-color: #e0e0e0;
+            padding: 10px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .no-data { font-style: italic; color: #777; }
+
+        /* Styles for printing */
+        @media print {
+            body { margin: 0.5cm; } /* Adjust print margins */
+            .filter-form, .print-button, nav, header, footer {
+                display: none; /* Hide non-report elements */
+            }
+            table, .grade-header {
+                page-break-inside: avoid; /* Try to keep tables/headers from splitting across pages */
+            }
+             h1, h2, h3 { page-break-after: avoid; }
+             td { vertical-align: top; } /* Ensure alignment in print */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Fee Collection Report</h1>
+
+    <form class="filter-form" method="GET" action="{{ url_for('fee_collection') }}">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+
+        <label for="grade">Grade:</label>
+        <select id="grade" name="grade">
+            <option value="">All Grades</option>
+            {% for g in all_grades %}
+            <option value="{{ g }}" {% if g == grade_filter %}selected{% endif %}>{{ g }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+        <button type="button" onclick="window.location.href='/fee_collection'">Clear Filters</button>
+    </form>
+
+    <button class="print-button" onclick="window.print()">Print Report</button>
+
+    <div id="report-content">
+        {% if report_data %}
+            {% for grade_info in report_data %}
+                <h2 class="grade-header">Grade: {{ grade_info.grade }}</h2>
+                {% if grade_info.data %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Students Count</th>
+                                <th>Total Fee Collected</th>
+                                <th>Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for date_str, details in grade_info.data %}
+                            <tr>
+                                <td>{{ date_str }}</td>
+                                <td>{{ details.count }}</td>
+                                <td>{{ "%.2f" | format(details.total_fee) }}</td> {# Format fee to 2 decimal places #}
+                                <td>{{ details.students | join('<br>') | safe }}</td> {# Join student list with line breaks #}
+                                </tr>
+                            {% endfor %}
+                            {# --- Optional: Add a summary row per grade --- #}
+                            <tr style="font-weight: bold; background-color: #f8f8f8;">
+                                <td>Total for Grade {{ grade_info.grade }}</td>
+                                <td>{{ grade_info.data | sum(attribute='1.count') }}</td>
+                                <td>{{ "%.2f" | format(grade_info.data | sum(attribute='1.total_fee')) }}</td>
+                                <td></td> {# No student list for summary row #}
+                            </tr>
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="no-data">No fee collection data found for this grade within the selected filters.</p>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="no-data">No fee collection data found matching the criteria.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

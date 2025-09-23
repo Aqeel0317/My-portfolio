@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suncoast Furniture Invoice</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+    <button class="no-print" onclick="window.print()">Print Invoice</button>
+    <div class="invoice">
+        <header>
+            <div class="head">
+                <div class="logo">
+                    <img src="{{url_for('static', filename='logo.png')}}" alt="" class="logo1">
+                    <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    </div>
+                    <img src="{{url_for('static', filename='scc.png')}}" alt="" srcset="" class="logo2">
+
+                </div>
+                <div class="office_info">
+            <p>280 Teller Street, suite#160</p>
+            <p>Corona, CA #92879</p>
+            <p>Office # 951-808-8332</p>
+            <p>Fax # 951-808-8333</p>
+            <p>Email: scoastfurniture@gmail.com</p>
+        </div>
+        <div class="logo">
+            <img src="{{url_for('static', filename='offer1.jpg')}}" alt="" srcset="" class="logo3" style="width: 15vw;">
+            <img src="{{url_for('static', filename='coll.png')}}" alt="" srcset="" class="logo4">
+            <img src="{{url_for('static', filename='5.png')}}" alt="" srcset="" class="logo4">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Record#</td>
+                        <td>{{ invoice[0] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Invoice#</td>
+                        <td>{{ invoice[1] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </header>
+
+        <div class="custom">
+
+            <section class="customer-info">
+                <div class="name">
+                    <p><strong>Customer:</strong> {{ customer[1] }}</p>
+                </div>
+                <div class="name" style="border: 1.5px solid black; border-left: none; border-bottom: none;">
+                    <p><strong>Address:</strong> {{ customer[2] }}</p>
+                </div>
+                <div class="name2">
+                    <p><strong>City:</strong> {{ customer[6] }}</p>
+                    <p><strong>State:</strong> {{ customer[7] }}</p>
+                    <p><strong>Zip code:</strong> {{ customer[8] }}</p>
+                </div>
+                <div class="name2">
+                    <p><strong>Home Phone:</strong> {{ customer[4] }}</p>
+                    <p><strong>Phone:</strong> {{ customer[3] }}</p>
+                </div>
+                <div class="name2" style="border: none;">
+                    <p><strong>Email:</strong> {{ customer[5] }}</p>
+                    <p><strong>Lease Id:</strong> {{ customer[9] }}</p>
+                </div>
+            </section>
+        <table class="tt">
+            <tbody>
+                <tr>
+                    <td style="font-size: 12px;">DATE</td>
+                    <td style="font-size: 12px;"> {{ customer[10].strftime('%m-%d-%Y') }}</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12px;">SALE PERSON</td>
+                    <td style="font-size: 12px;"> {{ customer[11] }}</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12px;">FLOOR MODEL</td>
+                    <td style="font-size: 12px;"> {{ customer[12] }}</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12px;">CUSTOM ORDER</td>
+                    <td style="font-size: 12px;"> {{ customer[13] }}</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12px;">FINANCE CO.</td>
+                    <td style="font-size: 12px;"> {{ customer[14] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <section class="invoice-details">
+
+            <div class="product">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Qty</th>
+                            <th>Brand</th>
+                            <th>Model/Item #</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th class="no-print">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invoice_detail in invoice_details %}
+                        <tr>
+                            <td>{{ invoice_detail[2] }}</td> <!-- Quantity -->
+                            <td>{{ invoice_detail[3] }}</td> <!-- Brand -->
+                            <td>{{ invoice_detail[4] }}</td>  <!-- Model/Item -->
+                            <td>{{ invoice_detail[5] }}</td> <!-- Description -->
+                            <td>${{ invoice_detail[6] }}</td> <!-- Amount -->
+                            <td class="no-print">
+                                <a href="{{ url_for('delete_product', product_id=invoice_detail[0], invoice_id=invoice[0]) }}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+
+            <div class="disc">
+                <div class="info">
+                    25% restocking fee for returns and cancellations of orders when in transit <br>
+                    All claims must be made within 48 hours of recieving products (Parchase of same day or when picking up) <br>
+                    Layaways only 50% deposits are acceptable. In case of cancellation customer will get same refund. Maximum layaway time is 3 months <br>
+                    All floor models sales are as is /final no exchange or refund <br>
+                    All social medias sales like offer up, Facebook, Instagram etc. are final sales.No refunds only store credit will provided. <br>
+                    In case of pickups company is not responsible for any damages occurs durring transit, Loading, Unloading and tie downs of marchendise <br>
+                    Customers are responsible for clearing space at their homes before the delivery service arrives. Delivery people are not allowed to move anything else in the house other then delivery marchendise. <br>
+                    There is always an extra charge for any other services rendered through or delivery personnel(Like moving furniture in the house or dismentling furniture etc.) <br>
+                    On time of purchase customer is responsible to explain the sales person for their entry ways, stair cases or any other situation in the house (if applicable) <br>
+                    Delivery option rates start at $99. in store setups before pickups are $45 minimum <br>
+                    Custom orders may take little longer than 4 weeks when placing orders ask sales person to explain everything. <br>
+                    Custom orders required minimum deposit 50% of the total amount and when ordered place It can't be cancelled or changed otherwise restocking fee will be charged     
+                </div>
+                <div class="amont">
+
+            <div class="totals">
+                <table class="tax">
+                    <tbody>
+                        <tr>
+                            <td>Subtotal</td>
+                            <td>${{ invoice[2] }}</td> <!-- Total Amount -->
+                        </tr>
+                        <tr>
+                            <td>State Tax</td>
+                            <td>${{ invoice[3] }}</td> <!-- Tax -->
+                        </tr>
+                        <tr>
+                            <td>Delivery</td>
+                            <td>${{ invoice[6] }}</td> <!-- Delivery -->
+                        </tr>
+                        <tr>
+                            <td>Warranty</td>
+                            <td>${{ invoice[5] }}</td> <!-- Warranty -->
+                        </tr>
+                        <tr>
+                            <td>Setup</td>
+                            <td>${{ invoice[7] }}</td> <!-- Setup -->
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td>${{ invoice[8] }}</td> <!-- Discount -->
+                        </tr>
+                        <tr>
+                            <td><strong>Grand Total</strong></td>
+                            <td><strong>${{ invoice[10] }}</strong></td> <!-- Grand Total -->
+                        </tr>
+                        <tr>
+                            <td><strong>Deposit</strong></td>
+                            <td><strong>${{ invoice[9] }}</strong></td> <!-- Deposit -->
+                        </tr>
+                        <tr>
+                            <td><strong>Balance Due</strong></td>
+                            <td><strong>${{ invoice[11] }}</strong></td> <!-- Balance Due -->
+                        </tr>
+                    </tbody>
+                    </table>
+        </div>
+        </div>
+        </section>
+
+        <footer>
+            <div class="signn" style="width: 32%;">
+                <p><Strong>Customer signature</Strong><br>____________</p>
+            </div>
+            <div class="footer">
+            <h1>Confirmation of recieving Merchendise</h1>
+            <p>I clearify that recieved merchendise is in good condition and actual count .</p>
+            <div class="sign"style="width: 99%;" >
+            <p style="margin-right: 10px;"><strong>Customer Signature:</strong> _______</p>
+            <p><strong>Date:</strong> _________</p></div></div>
+            <div class="signn" style="width: 20%;">
+                <p><Strong>Date:</Strong>{{ customer[10].strftime('%m-%d-%Y') }}</p>
+            </div>
+        </footer>
+    </div>
+</body>
+    
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container result-container">
+        <h2>Processing Result</h2>
+        <p class="description">{{ task_description }}</p> <div class="result-section">
+            <h3>{{ "Answer" if user_question else "Summary & Key Points" }}</h3>
+            <pre>{{ answer }}</pre>
+        </div>
+
+        <div class="result-section">
+            <h3>Extracted Text (from document)</h3>
+            <pre>{{ extracted_text }}</pre>
+        </div>
+
+        <a href="{{ url_for('upload_page') }}" class="back-link">&larr; Process Another Document</a>
+
+    </div>
+</body>
+</html>

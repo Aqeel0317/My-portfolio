@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV | {{ user_data.name }} - Modern Elegance</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* CSS Variables for easy maintenance */
+    :root {
+      --primary-color: #1a73e8;
+      --secondary-color: #4285f4;
+      --accent-color: #34a853;
+      --header-bg: #1a1f36;
+      --body-bg: #f0f4f8;
+      --card-bg: #ffffff;
+      --text-color: #333;
+      --light-text: #777;
+      --border-color: #e0e0e0;
+    }
+    
+    /* Global Reset & Base Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--body-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    /* CV Container */
+    .cv-container {
+      width: 100%;
+      max-width: 850px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    /* Header with Profile & Personal Details */
+    .cv-header {
+      background: var(--header-bg);
+      color: #fff;
+      padding: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 30px;
+    }
+    .profile-pic-container {
+      flex: 0 0 130px;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid var(--secondary-color);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    .profile-pic {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .header-info {
+      flex: 1;
+    }
+    .header-info h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .header-info .professional-title {
+      font-size: 1.2em;
+      font-weight: 400;
+      color: var(--secondary-color);
+      margin-bottom: 15px;
+    }
+    .contact-info {
+      font-size: 0.95em;
+    }
+    .contact-info span {
+      display: inline-block;
+      margin-right: 15px;
+      white-space: nowrap;
+    }
+    .contact-info a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    .contact-info i {
+      margin-right: 5px;
+      color: var(--accent-color);
+    }
+    
+    /* Main Content */
+    .cv-main {
+      padding: 40px;
+    }
+    .section {
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .section:not(:first-child) {
+      padding-top: 30px;
+      border-top: 2px solid var(--border-color);
+    }
+    .section h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6em;
+      color: var(--primary-color);
+      text-align: center;
+      position: relative;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: var(--card-bg);
+      display: inline-block;
+      border-radius: 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    
+    /* Experience, Education, and similar entries */
+    .entry {
+      margin-bottom: 25px;
+      padding: 15px 20px;
+      background: #fafafa;
+      border-left: 5px solid var(--primary-color);
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .entry h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+      color: var(--text-color);
+    }
+    .company-institution, .years {
+      font-size: 0.95em;
+      color: var(--light-text);
+      margin-bottom: 8px;
+    }
+    .years {
+      font-style: italic;
+    }
+    .entry p {
+      font-size: 0.95em;
+      color: var(--text-color);
+    }
+    
+    /* Skills Section */
+    .skills-list {
+      list-style: none;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .skills-list li {
+      background: var(--primary-color);
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    .skills-list li:hover {
+      background: var(--accent-color);
+    }
+    
+    /* Clearfix for floated elements (if any) */
+    .clearfix::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background-color: #fff !important;
+        color: #000 !important;
+        padding: 0;
+        margin: 0;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .cv-container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      .cv-main {
+        padding: 20px !important;
+      }
+      .section h2 {
+        font-size: 1.4em !important;
+        border-bottom: 2px solid var(--primary-color) !important;
+      }
+      .entry, .skills-list li {
+        box-shadow: none !important;
+      }
+      @page {
+        size: A4;
+        margin: 1.5cm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-button-container" style="text-align: right; margin: 20px 0;">
+    <button class="print-button" onclick="window.print();" style="padding: 10px 20px; font-family: 'Montserrat', sans-serif;">Print this CV</button>
+  </div>
+  
+  <div class="cv-container">
+    <header class="cv-header">
+      {% if user_data.profile_pic_base64 %}
+      <div class="profile-pic-container">
+        <img src="{{ user_data.profile_pic_base64 }}" alt="Profile Picture" class="profile-pic">
+      </div>
+      {% endif %}
+      <div class="header-info">
+        <h1>{{ user_data.name }}</h1>
+        {% if user_data.professional_title %}
+        <div class="professional-title">{{ user_data.professional_title }}</div>
+        {% endif %}
+        <div class="contact-info">
+          {% if user_data.phone %}<span><i class="fas fa-phone"></i> {{ user_data.phone }}</span>{% endif %}
+          {% if user_data.email %}<span><i class="fas fa-envelope"></i> <a href="mailto:{{ user_data.email }}">{{ user_data.email }}</a></span>{% endif %}
+          {% if user_data.address %}<span><i class="fas fa-map-marker-alt"></i> {{ user_data.address }}</span>{% endif %}
+          {% if user_data.linkedin %}<br><span><i class="fab fa-linkedin"></i> <a href="{{ user_data.linkedin }}" target="_blank">LinkedIn</a></span>{% endif %}
+          {% if user_data.portfolio %}<span><i class="fas fa-link"></i> <a href="{{ user_data.portfolio }}" target="_blank">Portfolio</a></span>{% endif %}
+        </div>
+      </div>
+    </header>
+    
+    <main class="cv-main">
+      {% if user_data.summary %}
+      <section class="section summary" style="text-align: center;">
+        <h2>Summary</h2>
+        <p>{{ user_data.summary }}</p>
+      </section>
+      {% endif %}
+      
+      {% if user_data.experience %}
+      <section class="section experience clearfix">
+        <h2>Work Experience</h2>
+        {% for exp in user_data.experience %}
+        <div class="entry">
+          <h3>{{ exp.title }}</h3>
+          <div class="company-institution">{{ exp.company }}</div>
+          <div class="years">{{ exp.years }}</div>
+          {% if exp.description %}
+          <p>{{ exp.description|replace('\n', '<br>')|safe }}</p>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </section>
+      {% endif %}
+      
+      {% if user_data.education %}
+      <section class="section education clearfix">
+        <h2>Education</h2>
+        {% for edu in user_data.education %}
+        <div class="entry">
+          <h3>{{ edu.degree }}</h3>
+          <div class="company-institution">{{ edu.institution }}</div>
+          <div class="years">{{ edu.years }}</div>
+        </div>
+        {% endfor %}
+      </section>
+      {% endif %}
+      
+      {% if user_data.skills %}
+      <section class="section skills-section" style="text-align: center;">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+          {% for skill in user_data.skills %}
+          <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>

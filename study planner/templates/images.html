@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Generated Images</h2>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Image Generation Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Generate New Image</h5>
+            <form action="{{ url_for('generate_image_route') }}" method="POST">
+                <div class="mb-3">
+                    <label for="prompt" class="form-label">Image Prompt</label>
+                    <input type="text" class="form-control" id="prompt" name="prompt" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Generate Image</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Generated Images Gallery -->
+    <div class="row">
+        {% for image in images %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ url_for('static', filename=image.image_path) }}" 
+                     class="card-img-top" alt="Generated Image">
+                <div class="card-body">
+                    <p class="card-text"><small>{{ image.prompt }}</small></p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Generated on {{ image.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

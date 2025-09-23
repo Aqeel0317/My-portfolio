@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV | {{ user_data.name }} | Classic Refined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Using a pair of modern fonts for headings and text -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* --- Global Base --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      font-size: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #34495e;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      display: flex;
+      justify-content: center;
+      padding: 30px 15px;
+    }
+    
+    /* --- Print Button --- */
+    .print-button-container {
+      width: 100%;
+      max-width: 900px;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .print-button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+    .print-button:hover { 
+      background-color: #0056b3;
+    }
+    
+    /* --- CV Container --- */
+    .cv-container {
+      background-color: #fff;
+      max-width: 900px;
+      width: 100%;
+      padding: 50px 60px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      border-top: 6px solid #007bff;
+    }
+    
+    /* --- Header --- */
+    .cv-header {
+      text-align: center;
+      margin-bottom: 2.5em;
+    }
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #f1f1f1;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 34px;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .professional-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #007bff;
+      margin-bottom: 15px;
+    }
+    .contact-info {
+      font-size: 13px;
+      color: #7f8c8d;
+      margin-bottom: 5px;
+    }
+    .contact-info span {
+      margin: 0 8px;
+      white-space: nowrap;
+    }
+    .contact-info a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .contact-info a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    
+    /* --- Sections --- */
+    .section {
+      margin-bottom: 2em;
+    }
+    .section:last-child { margin-bottom: 0; }
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #007bff;
+      margin-bottom: 1em;
+      padding-bottom: 0.5em;
+      border-bottom: 2px solid #dee2e6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* --- Entries (Experience, Education) --- */
+    .entry {
+      margin-bottom: 1.5em;
+    }
+    .entry h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .company-institution, .years {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: #606060;
+      margin-bottom: 5px;
+    }
+    .years { font-style: italic; }
+    .entry p {
+      font-size: 14px;
+      color: #555;
+      margin-top: 5px;
+      line-height: 1.7;
+    }
+    .entry ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+    .entry li {
+      margin-bottom: 6px;
+      color: #555;
+    }
+    
+    /* --- Skills --- */
+    .skills-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .skills-list li {
+      background-color: #e9f0fb;
+      border: 1px solid #cfd8e3;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #007bff;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .skills-list li:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+    
+    /* --- Print Styles --- */
+    @media print {
+      body {
+        background: #fff !important;
+        padding: 0;
+      }
+      .print-button-container { display: none; }
+      .cv-container {
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        border-top: 6px solid #007bff !important;
+        max-width: none;
+      }
+      h1, h3 { color: #2c3e50 !important; }
+      h2, .professional-title, .contact-info a { color: #007bff !important; }
+      .entry p, .company-institution, .years, .contact-info { color: #333 !important; }
+      a { color: #007bff !important; text-decoration: none !important; }
+      @page { size: A4; margin: 1.5cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-button-container">
+    <button class="print-button" onclick="window.print();">Print this CV</button>
+  </div>
+
+  <div class="cv-container">
+    <div class="cv-header">
+      {% if user_data.profile_pic_base64 %}
+        <img src="{{ user_data.profile_pic_base64 }}" alt="Profile Picture" class="profile-pic">
+      {% endif %}
+      <h1>{{ user_data.name }}</h1>
+      {% if user_data.professional_title %}
+      <div class="professional-title">{{ user_data.professional_title }}</div>
+      {% endif %}
+      <div class="contact-info">
+        {% if user_data.email %}
+          <span><i class="fas fa-envelope"></i> <a href="mailto:{{ user_data.email }}">{{ user_data.email }}</a></span>
+        {% endif %}
+        {% if user_data.phone %}
+          <span><i class="fas fa-phone"></i> {{ user_data.phone }}</span>
+        {% endif %}
+        {% if user_data.address %}
+          <span><i class="fas fa-map-marker-alt"></i> {{ user_data.address }}</span>
+        {% endif %}
+        <br>
+        {% if user_data.linkedin %}
+          <span><i class="fab fa-linkedin"></i> <a href="{{ user_data.linkedin }}" target="_blank">LinkedIn</a></span>
+        {% endif %}
+        {% if user_data.portfolio %}
+          <span><i class="fas fa-link"></i> <a href="{{ user_data.portfolio }}" target="_blank">Portfolio</a></span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if user_data.summary %}
+    <div class="section summary">
+      <h2>Summary</h2>
+      <p>{{ user_data.summary }}</p>
+    </div>
+    {% endif %}
+
+    {% if user_data.experience %}
+    <div class="section experience">
+      <h2>Work Experience</h2>
+      {% for exp in user_data.experience %}
+      <div class="entry">
+        <h3>{{ exp.title }}</h3>
+        <div class="company-institution">{{ exp.company }}</div>
+        <div class="years">{{ exp.years }}</div>
+        {% if exp.description %}
+          <p>{{ exp.description|replace('\n', '<br>')|safe }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if user_data.education %}
+    <div class="section education">
+      <h2>Education</h2>
+      {% for edu in user_data.education %}
+      <div class="entry">
+        <h3>{{ edu.degree }}</h3>
+        <div class="company-institution">{{ edu.institution }}</div>
+        <div class="years">{{ edu.years }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if user_data.skills %}
+    <div class="section skills">
+      <h2>Skills</h2>
+      <ul class="skills-list">
+        {% for skill in user_data.skills %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+  </div>
+</body>
+</html>

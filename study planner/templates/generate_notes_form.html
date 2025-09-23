@@ -1,0 +1,21 @@
+<!-- templates/generate_notes_form.html -->
+{% extends 'base.html' %}
+{% block title %}Generate Study Notes{% endblock %}
+{% block content %}
+  <div class="card mx-auto" style="max-width: 600px;">
+    <div class="card-body">
+      <h5 class="card-title">AI-Powered Study Notes</h5>
+      <form method="post" action="{{ url_for('handle_generate_notes_form') }}">
+        <div class="mb-3">
+          <label for="user_id" class="form-label">User ID</label>
+          <input type="number" class="form-control" id="user_id" name="user_id" required>
+        </div>
+        <div class="mb-3">
+          <label for="topic" class="form-label">Topic</label>
+          <input type="text" class="form-control" id="topic" name="topic" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate Notes</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

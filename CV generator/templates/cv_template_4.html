@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV | {{ user_data.name }} | Minimalist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style type="text/css">
+    /* --- CSS Variables --- */
+    :root {
+      --primary-color: #007BFF;
+      --accent-color: #0056b3;
+      --text-color: #444;
+      --subtext-color: #666;
+      --bg-color: #f8f9fa;
+      --container-bg: #fff;
+      --border-color: #e0e0e0;
+    }
+
+    /* --- Global Reset & Base Styles --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      font-family: 'Roboto', 'Arial', sans-serif;
+      font-size: 10pt;
+      line-height: 1.7;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 15px;
+      font-weight: 300;
+    }
+
+    /* --- Print Button --- */
+    .print-button-container {
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 800px;
+      text-align: right;
+    }
+    .print-button {
+      padding: 10px 20px;
+      font-size: 11pt;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      color: #fff;
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .print-button:hover {
+      background-color: var(--accent-color);
+    }
+
+    /* --- CV Container --- */
+    .cv-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      background-color: var(--container-bg);
+      padding: 40px 50px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      border-radius: 3px;
+    }
+
+    /* --- Header Section --- */
+    .cv-header {
+      margin-bottom: 2.5em;
+      text-align: left;
+      position: relative;
+    }
+    .cv-header h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 28pt;
+      color: #1a1a1a;
+      margin-bottom: 0;
+      font-weight: 700;
+    }
+    .cv-header .professional-title {
+      font-family: 'Roboto', sans-serif;
+      font-size: 13pt;
+      color: var(--primary-color);
+      margin-bottom: 1em;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+    .contact-details {
+      margin-top: 1em;
+    }
+    .contact-line {
+      font-size: 9.5pt;
+      color: var(--subtext-color);
+      margin-bottom: 0.5em;
+      display: flex;
+      align-items: center;
+    }
+    .contact-line strong {
+      display: inline-block;
+      width: 70px;
+      font-weight: 500;
+      color: #333;
+    }
+    .contact-line a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    .contact-line a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Profile Picture --- */
+    .profile-pic {
+      max-width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 3px;
+      position: absolute;
+      top: 40px;
+      right: 50px;
+      border: 1px solid #ddd;
+    }
+
+    /* --- Main Content Sections --- */
+    .section {
+      margin-top: 2.5em;
+      padding-top: 1em;
+      border-top: 1px solid var(--border-color);
+    }
+    .section:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .section h2 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 13pt;
+      color: var(--primary-color);
+      margin-bottom: 1.2em;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .section h3 {
+      font-family: 'Merriweather', serif;
+      font-size: 12pt;
+      color: #222;
+      margin-top: 1em;
+      margin-bottom: 2px;
+      font-weight: 700;
+    }
+    .company-institution,
+    .years {
+      font-family: 'Roboto', sans-serif;
+      font-size: 10pt;
+      color: var(--subtext-color);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+    .company-institution {
+      font-style: italic;
+    }
+    .years {
+      font-weight: 500;
+      color: #333;
+    }
+    .entry {
+      margin-bottom: 1.5em;
+    }
+    .entry p {
+      font-weight: 300;
+      font-size: 10pt;
+      color: var(--text-color);
+      margin-top: 5px;
+    }
+
+    /* --- Skills Section --- */
+    .skills-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 -5px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .skills-section li {
+      font-size: 9.5pt;
+      color: #333;
+      padding: 4px 10px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .skills-section li:hover {
+      background-color: #eee;
+      border-color: #bbb;
+    }
+
+    /* --- PRINT STYLES --- */
+    @media print {
+      body {
+        background-color: #fff !important;
+        padding: 0;
+        margin: 0;
+        font-size: 9.5pt;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .print-button-container {
+        display: none !important;
+      }
+      .cv-container {
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        padding: 0 !important;
+        position: static !important;
+        page-break-inside: avoid;
+      }
+      .profile-pic {
+        position: absolute !important;
+        top: 2cm !important;
+        right: 2cm !important;
+        border-color: #ccc !important;
+      }
+      .cv-header h1 {
+        color: #1a1a1a !important;
+      }
+      .cv-header .professional-title {
+        color: var(--primary-color) !important;
+      }
+      .contact-line {
+        color: var(--subtext-color) !important;
+      }
+      .contact-line strong {
+        color: #000 !important;
+      }
+      .contact-line a {
+        color: var(--primary-color) !important;
+        text-decoration: none !important;
+      }
+      .section {
+        border-top-color: var(--border-color) !important;
+      }
+      .section h2 {
+        color: var(--primary-color) !important;
+      }
+      .section h3 {
+        color: #222 !important;
+      }
+      .company-institution,
+      .years {
+        color: var(--subtext-color) !important;
+      }
+      .years {
+        color: #333 !important;
+      }
+      .entry p {
+        color: var(--text-color) !important;
+      }
+      .skills-section li {
+        background-color: #f8f8f8 !important;
+        border-color: #ccc !important;
+        color: #333 !important;
+      }
+      .section, .entry {
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A4;
+        margin: 2cm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-button-container">
+    <button class="print-button" onclick="window.print();">Print this CV</button>
+  </div>
+
+  <div class="cv-container">
+    {% if user_data.profile_pic_base64 %}
+      <img src="{{ user_data.profile_pic_base64 }}" alt="Profile Picture" class="profile-pic">
+    {% endif %}
+
+    <div class="cv-header">
+      <h1>{{ user_data.name }}</h1>
+      {% if user_data.professional_title %}
+        <div class="professional-title">{{ user_data.professional_title }}</div>
+      {% endif %}
+      <div class="contact-details">
+        {% if user_data.email %}
+          <div class="contact-line"><strong>Email</strong> <a href="mailto:{{ user_data.email }}">{{ user_data.email }}</a></div>
+        {% endif %}
+        {% if user_data.phone %}
+          <div class="contact-line"><strong>Phone</strong> {{ user_data.phone }}</div>
+        {% endif %}
+        {% if user_data.address %}
+          <div class="contact-line"><strong>Location</strong> {{ user_data.address }}</div>
+        {% endif %}
+        {% if user_data.linkedin %}
+          <div class="contact-line"><strong>LinkedIn</strong> <a href="{{ user_data.linkedin }}" target="_blank">Link</a></div>
+        {% endif %}
+        {% if user_data.portfolio %}
+          <div class="contact-line"><strong>Portfolio</strong> <a href="{{ user_data.portfolio }}" target="_blank">Link</a></div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if user_data.summary %}
+      <div class="section summary">
+        <h2>Profile</h2>
+        <p>{{ user_data.summary }}</p>
+      </div>
+    {% endif %}
+
+    {% if user_data.experience %}
+      <div class="section experience">
+        <h2>Experience</h2>
+        {% for exp in user_data.experience %}
+          <div class="entry">
+            <h3>{{ exp.title }}</h3>
+            <div class="company-institution">{{ exp.company }}</div>
+            <div class="years">{{ exp.years }}</div>
+            {% if exp.description %}
+              <p>{{ exp.description|replace('\n', '<br>')|safe }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if user_data.education %}
+      <div class="section education">
+        <h2>Education</h2>
+        {% for edu in user_data.education %}
+          <div class="entry">
+            <h3>{{ edu.degree }}</h3>
+            <div class="company-institution">{{ edu.institution }}</div>
+            <div class="years">{{ edu.years }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if user_data.skills %}
+      <div class="section skills-section">
+        <h2>Skills</h2>
+        <ul>
+          {% for skill in user_data.skills %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+  
+</body>
+</html>

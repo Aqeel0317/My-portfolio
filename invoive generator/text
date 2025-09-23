@@ -1,0 +1,1 @@
+pyinstaller --onefile --add-data "invoices.xlsx;." --add-data "wkhtmltopdf/bin/wkhtmltopdf.exe;wkhtmltopdf/bin" --add-data "templates;templates" --add-data "static;static" index.py

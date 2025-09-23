@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .back-link {
+            text-decoration: none;
+            color: #007bff;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .total-fee {
+            font-weight: bold;
+        }
+        .school-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .school-header img {
+            max-height: 80px;
+            display: block;
+            margin: 0 auto;
+        }
+        .school-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .school-tagline {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="school-header">
+        <img src="/static/logo.jpeg" alt="Vision School System Logo">
+        <div class="school-name">Vision School System</div>
+        <div class="school-tagline">Shaping the Future, One Student at a Time</div>
+    </div>
+
+    <a href="/students" class="back-link">← Back to Manage Students</a>
+
+    <h1>Student Report</h1>
+    <h2>{{ student.name }} (ID: {{ student.id }})</h2>
+
+    <table>
+        <tr>
+            <th>Father's Name</th>
+            <td>{{ student.father_name }}</td>
+        </tr>
+        <tr>
+            <th>Contact Number</th>
+            <td>{{ student.contact_number }}</td>
+        </tr>
+        <tr>
+            <th>Grade</th>
+            <td>{{ student.grade }}</td>
+        </tr>
+        <tr>
+            <th>Monthly Fee</th>
+            <td>${{ student.monthly_fee }}</td>
+        </tr>
+        <tr>
+            <th>Annual Charge</th>
+            <td>${{ student.annual_charge }}</td>
+        </tr>
+        <tr>
+            <th>Paid Annual Charge</th>
+            <td>${{ student.paid_annual_charge }}</td>
+        </tr>
+        <tr>
+            <th>Total Dues</th>
+            <td>${{ student.dues }}</td>
+        </tr>
+        <tr>
+            <th>Total Expected Fee</th>
+            <td class="total-fee">${{ total_expected_fee }}</td>
+        </tr>
+    </table>
+
+    <h2>Payment History</h2>
+    <form method="POST" action="/students/report/{{ student.id }}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Date Paid</th>
+                    <th>Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in payment_history %}
+                <tr>
+                    <td>{{ entry.month }}</td>
+                    <td>{{ entry.date_paid }}</td>
+                    <td>
+                        <input type="text" name="remarks" value="{{ entry.remark }}" placeholder="Enter remark">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Save Remarks</button>
+    </form>
+
+    <script>
+        // Listen for keydown events
+        document.addEventListener('keydown', function(event) {
+            // Check if Ctrl + P is pressed
+            if (event.ctrlKey && event.key === 'p') {
+                event.preventDefault(); // Prevent the default browser print action
+                window.print(); // Open the print dialog
+            }
+        });
+    </script>
+</body>
+</html>

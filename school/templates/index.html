@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vision School System</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    /* Reset Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #a0c4ff, #ffdfdf);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* Container */
+    .container {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    header {
+      margin-bottom: 40px;
+    }
+
+    /* Logo Styling */
+    .logo {
+      max-width: 250px;
+      display: block;
+      margin: 0 auto 15px;
+    }
+
+    .title {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2a5d84;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      animation: slideUp 1s ease-out;
+    }
+
+    /* Menu Styles */
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .menu ul {
+      list-style-type: none;
+    }
+
+    .menu li {
+      margin: 15px 0;
+      transition: transform 0.3s ease;
+    }
+
+    /* Menu links */
+    .menu-link {
+      font-size: 1.5em;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      background-color: #4caf50;
+      border-radius: 12px;
+      padding: 12px 24px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Hover effects */
+    .menu-link:hover {
+      background-color: #45a049;
+      transform: translateY(-5px);
+    }
+
+    /* Animation for header */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      0% {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Media queries for responsiveness */
+    @media screen and (max-width: 768px) {
+      .title {
+        font-size: 2.5em;
+      }
+
+      .menu-link {
+        font-size: 1.3em;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="/static/logo.jpeg" alt="School Logo" class="logo">
+      <h1 class="title" style="text-transform: capitalize;">WELCOME</h1>
+      <h2 class="title" style="text-transform: capitalize;">THE LITTLE ANGELS NEXT GEN MONTESSORI SCHOOL</h2>
+      <h2 class="title" style="text-transform: capitalize;">HATTIAN</h2>
+    </header>
+    <main>
+      <div class="menu">
+        <ul>
+          <li><a href="/students" class="menu-link">Manage Students</a></li>
+          <li> <a class="menu-link" href="{{ url_for('comp') }}">Manage Computer Students <span class="sr-only">(current)</span></a></li>
+        </ul>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

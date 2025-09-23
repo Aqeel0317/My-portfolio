@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ user_data.name }} - CV</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* --- CSS Variables for easy theming --- */
+    :root {
+      --primary-bg: #1a2533;       /* Dark blue for header background */
+      --primary-text: #ffffff;     /* White text on dark header */
+      --accent: #5cacee;           /* Lighter blue accent */
+      --body-bg: #f4f4f4;          /* Overall page background */
+      --container-bg: #fff;        /* CV container background */
+      --header-font-color: #fff;
+      --content-heading-color: #1a2533;
+      --content-border: #5cacee;
+      --sub-heading-color: #2c3e50;
+      --text-color: #444;
+      --link-color: #5cacee;
+    }
+
+    /* --- Base Styles --- */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.7;
+      color: var(--text-color);
+      background-color: var(--body-bg);
+      margin: 0;
+      padding: 20px 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .cv-container {
+      max-width: 8.5in; /* Approximate A4 width */
+      min-height: 11in; /* Approximate A4 height */
+      background-color: var(--container-bg);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- Header Section --- */
+    .cv-header {
+      background-color: var(--primary-bg);
+      color: var(--primary-text);
+      padding: 30px 40px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .profile-pic-container {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid var(--accent);
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+    .profile-pic-container:hover {
+      transform: scale(1.05);
+    }
+    .profile-pic {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .header-info {
+      flex-grow: 1;
+    }
+    .header-info h1 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 2.8em;
+      margin: 0 0 5px 0;
+      color: var(--header-font-color);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .header-info .professional-title {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.4em;
+      font-weight: 400;
+      color: #a9cce3;
+      margin-bottom: 15px;
+      letter-spacing: 0.5px;
+    }
+    .contact-header {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 25px;
+      font-size: 0.95em;
+    }
+    .contact-header li {
+      display: flex;
+      align-items: center;
+    }
+    .contact-header i {
+      margin-right: 8px;
+      color: var(--accent);
+      width: 16px;
+      text-align: center;
+    }
+    .contact-header a {
+      color: var(--header-font-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .contact-header a:hover {
+      color: var(--accent);
+    }
+
+    /* --- CV Content --- */
+    .cv-content {
+      padding: 30px 40px;
+    }
+    .cv-content h2 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.6em;
+      color: var(--content-heading-color);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 8px;
+      margin-top: 25px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cv-content h2 i {
+      color: var(--content-heading-color);
+    }
+    .summary p {
+      font-size: 1.05em;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .skills-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .skills-list li {
+      background-color: #eaf2f8;
+      color: #2874a6;
+      padding: 8px 15px;
+      border-radius: 15px;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    .skills-list li:hover {
+      background-color: #d0e7f9;
+    }
+    .content-section {
+      margin-bottom: 25px;
+    }
+    .item {
+      margin-bottom: 20px;
+      padding-left: 10px;
+      border-left: 3px solid transparent;
+      transition: border-left-color 0.3s ease;
+    }
+    .item h3 {
+      font-size: 1.2em;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #2c3e50;
+    }
+    .item .sub-heading {
+      font-size: 1em;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 5px;
+    }
+    .item .years {
+      font-size: 0.9em;
+      color: #7f8c8d;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .item p, 
+    .item ul {
+      font-size: 0.95em;
+      color: #444;
+    }
+    .item ul {
+      list-style: disc;
+      margin-left: 25px;
+      padding-left: 0;
+    }
+    .item li {
+      margin-bottom: 5px;
+    }
+
+    /* --- Print Button (Optional if needed) --- */
+    .print-button-container {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .print-button {
+      padding: 10px 20px;
+      font-size: 11pt;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .print-button:hover {
+      background-color: #497bb7;
+    }
+
+    /* --- A4 Print Styles --- */
+    @media print {
+      @page {
+        size: A4;
+        margin: 1cm;
+      }
+      html, body {
+        background-color: #fff !important;
+        color: #000 !important;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .cv-container {
+        max-width: 100% !important;
+        width: 190mm;
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+      }
+      .cv-header {
+        padding: 15px 20px;
+        gap: 20px;
+      }
+      .profile-pic-container {
+        width: 100px;
+        height: 100px;
+        border: 4px solid var(--accent) !important;
+      }
+      .header-info h1 {
+        font-size: 20pt;
+      }
+      .header-info .professional-title {
+        font-size: 12pt;
+        margin-bottom: 10px;
+      }
+      .contact-header {
+        font-size: 9pt;
+        gap: 5px 15px;
+      }
+      .cv-content {
+        padding: 15px 20px;
+      }
+      .cv-content h2 {
+        font-size: 14pt;
+        border-bottom: 2px solid var(--accent) !important;
+        padding-bottom: 5px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      .summary p {
+        font-size: 10pt;
+      }
+      .skills-list {
+        gap: 5px 8px;
+        margin-bottom: 15px;
+      }
+      .skills-list li {
+        padding: 5px 10px;
+        font-size: 8.5pt;
+        border-radius: 10px;
+      }
+      .content-section {
+        margin-bottom: 15px;
+      }
+      .item {
+        margin-bottom: 12px;
+        padding-left: 0;
+        border-left: none;
+        page-break-inside: avoid;
+      }
+      .item h3 {
+        font-size: 11pt;
+      }
+      .item .sub-heading {
+        font-size: 10pt;
+      }
+      .item .years {
+        font-size: 9pt;
+      }
+      .item p,
+      .item ul {
+        font-size: 9.5pt;
+      }
+      .item ul {
+        margin-left: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-button-container">
+    <button class="print-button" onclick="window.print();">Print this CV</button>
+  </div>
+
+  <div class="cv-container">
+    <header class="cv-header">
+      {% if user_data.profile_pic_base64 %}
+      <div class="profile-pic-container">
+        <img src="{{ user_data.profile_pic_base64 }}" alt="Profile Picture" class="profile-pic">
+      </div>
+      {% endif %}
+      <div class="header-info">
+        <h1>{{ user_data.name }}</h1>
+        {% if user_data.professional_title %}
+        <p class="professional-title">{{ user_data.professional_title }}</p>
+        {% endif %}
+        <ul class="contact-header">
+          {% if user_data.phone %}<li><i class="fas fa-phone"></i> {{ user_data.phone }}</li>{% endif %}
+          {% if user_data.email %}<li><i class="fas fa-envelope"></i> {{ user_data.email }}</li>{% endif %}
+          {% if user_data.address %}<li><i class="fas fa-map-marker-alt"></i> {{ user_data.address }}</li>{% endif %}
+          {% if user_data.linkedin %}<li><i class="fab fa-linkedin"></i> <a href="{{ user_data.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>{% endif %}
+          {% if user_data.portfolio %}<li><i class="fas fa-globe"></i> <a href="{{ user_data.portfolio }}" target="_blank" rel="noopener noreferrer">Portfolio</a></li>{% endif %}
+        </ul>
+      </div>
+    </header>
+
+    <main class="cv-content">
+      {% if user_data.summary %}
+      <section class="summary content-section">
+        <h2><i class="fas fa-user"></i> Summary</h2>
+        <p>{{ user_data.summary }}</p>
+      </section>
+      {% endif %}
+
+      {% if user_data.skills %}
+      <section class="skills content-section">
+        <h2><i class="fas fa-cogs"></i> Skills</h2>
+        <ul class="skills-list">
+          {% for skill in user_data.skills %}
+          <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if user_data.experience %}
+      <section class="experience content-section">
+        <h2><i class="fas fa-briefcase"></i> Experience</h2>
+        {% for exp in user_data.experience %}
+        <div class="item">
+          <h3>{{ exp.title }}</h3>
+          <p class="sub-heading">{{ exp.company }}</p>
+          {% if exp.years %}<p class="years">{{ exp.years }}</p>{% endif %}
+          {% if exp.description %}
+            {% if '\n' in exp.description %}
+              <ul>
+                {% for line in exp.description.split('\n') %}
+                  {% if line.strip() %}
+                    <li>{{ line.strip() }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p>{{ exp.description }}</p>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% endfor %}
+      </section>
+      {% endif %}
+
+      {% if user_data.education %}
+      <section class="education content-section">
+        <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+        {% for edu in user_data.education %}
+        <div class="item">
+          <h3>{{ edu.degree }}</h3>
+          <p class="sub-heading">{{ edu.institution }}</p>
+          {% if edu.years %}<p class="years">{{ edu.years }}</p>{% endif %}
+        </div>
+        {% endfor %}
+      </section>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+/* Form container */
+.form {
+    max-width: 800px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* Logo placeholder */
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 150px;
+    height: auto;
+}
+
+/* Form headings */
+h1, h2, h3 {
+    color: #333;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h2, h3 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* Labels and input fields */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input, textarea, select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #007bff;
+}
+
+/* Button styles */
+button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Product form sections */
+.product-form {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.product-form label {
+    margin-bottom: 8px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Adjusting table fields */
+table {
+    width: 100%;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Footer */
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #999;
+}
